@@ -43,21 +43,65 @@ class interceptCalculator():
         self.pastIntercepts.append(point)
     
     #function that calculates the optimum intercept 
+    #really long but most of it is just renaming variables and arguments for better visibility and explenations
     def calculateOptimumIntercept(self, currentPositioning):
         #very complex calculations incoming
+        #all distances we return
         distances = []
+        
+        #previous X and Y coordinates for colision calc
+        prev_b_X = 0
+        prev_b_Y = 0
+        
+        #time offsets for when collision occurs
+        t_offset= 0
         #b: ball x & y
         b = self.pastIntercepts[self.sample_depth-1]
         #r: robot x & y
         r = currentPositioning
         #m: gradients
-        m = {'x': self.estimateFunction('x')  ,'y':self.estimateFunction('y')}
-
-        for t in range(10):
-            #t1 = time elapsed
-            t1 = t
+        m = {'x': self.estimateFunction('x'), 'y':self.estimateFunction('y')}
+        
+        for t in range(50):
+            #t1 = time elapsed since beginning/last collision
+            t1 = (t - t_offset)
             
-            distance_from = math.sqrt(((b['x'] + (t1 * m['x']) - r['x'])**2) + ((b['y'] + t1*m['y'] - r['y'])**int(2)))
+            #calculated future BallX & BallY
+            ballx = b['x'] + (t1 * m['x'])
+            bally = b['y'] + (t1 * m['y'])
+            
+            ## *Colision Checks* ##
+            
+            #the way we compute ricochet's:
+            #   -in a prediction, check if balls position isn't negative or > 1in direction
+            #   -if it is:
+            #       -we asume that the last "OK" coordinate is the riccochet point
+            #       -we assume collision is elastic (all k_energy is preserved) (TODO: we might want to calculate collision elasticity)
+            #       -offset time to future predictions by the current t ("t_offset" variables)
+            #       -invert gradient of travel("m") constant
+            #       -set past ball position ("b") to previous X & Y
+
+
+            #ball is to pass X boundary
+            if(ballx < 0 or ballx > 1):
+                t_offset = t
+                b = {'x':prev_b_X,'y':prev_b_Y}
+                m['x'] = -m['x']
+
+                
+            if(bally < 0 or bally > 1):
+                t_offset = t
+                b = {'x':prev_b_X,'y':prev_b_Y}
+                m['y'] = -m['y']
+
+
+            print(ballx, bally)
+            
+            distance_from = math.sqrt(((ballx - r['x'])**2) + ((bally - r['y'])**int(2)))
             distances.append(distance_from)
+
+            prev_b_X = ballx
+            prev_b_Y = bally
+
         return distances
             
