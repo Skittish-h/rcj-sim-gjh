@@ -28,11 +28,12 @@ class MyRobot(RCJSoccerRobot):
                 
                 robot_pos = robot_pos_recalc(data[self.name])
                 # Get & recalculate the position of the ball
+                #print(data['ball']['x'], data['ball']['y'])
                 ball_pos = coor_recalc(data['ball']['x'], data['ball']['y'])
                 #push ball pos into intercept calculator
                 intercept_c.pushPoint(ball_pos)
                 print(ball_pos)
-                print(intercept_c.calculateOptimumIntercept(robot_pos))
+                intercept_c.calculateOptimumIntercept(robot_pos))
 
                 # Get angle between the robot and the ball
                 # and between the robot and the north
