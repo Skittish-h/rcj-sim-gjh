@@ -1,6 +1,6 @@
 #basic coord recalculation
 def coor_recalc(x,y):
-  x = (x+0.75)/1.5
+  x = 1-(x+0.75)/1.5
   y = (y+0.65)/1.3
   return {"x":x,"y":y}
 
