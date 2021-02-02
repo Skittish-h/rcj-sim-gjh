@@ -42,6 +42,14 @@ class interceptCalculator():
         self.pastIntercepts.pop(0)
         self.pastIntercepts.append(point)
     
+    #calculates time nessecary to traverse a certain distance - used to calculate imtercept
+    def calculate_time(self, distance):
+                
+        speed_constant = {'m':73.1, 'c':23}
+    
+        return speed_constant['m']*distance + speed_constant['c']
+    
+
     #function that calculates the optimum intercept 
     #really long but most of it is just renaming variables and arguments for better visibility and explenations
     def calculateOptimumIntercept(self, currentPositioning):
@@ -52,7 +60,7 @@ class interceptCalculator():
         #previous X and Y coordinates for colision calc
         prev_b_X = 0
         prev_b_Y = 0
-        
+
         #time offsets for when collision occurs
         t_offset= 0
         #b: ball x & y
@@ -61,6 +69,7 @@ class interceptCalculator():
         r = currentPositioning
         #m: gradients
         m = {'x': self.estimateFunction('x'), 'y':self.estimateFunction('y')}
+       
         
         for t in range(50):
             #t1 = time elapsed since beginning/last collision
@@ -69,6 +78,7 @@ class interceptCalculator():
             #calculated future BallX & BallY
             ballx = b['x'] + (t1 * m['x'])
             bally = b['y'] + (t1 * m['y'])
+            
             
             ## *Colision Checks* ##
             
@@ -94,14 +104,21 @@ class interceptCalculator():
                 b = {'x':prev_b_X,'y':prev_b_Y}
                 m['y'] = -m['y']
 
-
+            #ball is to pass X boundary
             print(ballx, bally)
             
+            #do math
             distance_from = math.sqrt(((ballx - r['x'])**2) + ((bally - r['y'])**int(2)))
+            
+            #if we can travel to the ball in time by that coordinate, return
+            if(distance_from <= self.calculate_time(t)):
+                return {"isIntercept":True, "x":ballx, "y":bally}
+            
             distances.append(distance_from)
 
+            #sacrifice memory for processing
             prev_b_X = ballx
             prev_b_Y = bally
 
-        return distances
+        return {"isIntercept":False, "x":0, "y":0}
             
