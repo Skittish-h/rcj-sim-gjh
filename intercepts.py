@@ -52,7 +52,7 @@ class interceptCalculator():
 
     #function that calculates the optimum intercept 
     #really long but most of it is just renaming variables and arguments for better visibility and explenations
-    def calculateOptimumIntercept(self, currentPositioning):
+    def calculateOptimumIntercept(self, currentPositioning, sample_count=50,sample_accuracy=1):
         #very complex calculations incoming
         #all distances we return
         distances = []
@@ -70,8 +70,8 @@ class interceptCalculator():
         #m: gradients
         m = {'x': self.estimateFunction('x'), 'y':self.estimateFunction('y')}
        
-        
-        for t in range(50):
+        #do sample_count loops with sample accuracy time each
+        for t in range(0, sample_count*sample_accuracy, sample_accuracy):
             #t1 = time elapsed since beginning/last collision
             t1 = (t - t_offset)
             
@@ -79,7 +79,7 @@ class interceptCalculator():
             ballx = b['x'] + (t1 * m['x'])
             bally = b['y'] + (t1 * m['y'])
             
-            
+
             ## *Colision Checks* ##
             
             #the way we compute ricochet's:
@@ -111,8 +111,8 @@ class interceptCalculator():
             distance_from = math.sqrt(((ballx - r['x'])**2) + ((bally - r['y'])**int(2)))
             
             #if we can travel to the ball in time by that coordinate, return
-            if(distance_from <= self.calculate_time(t)):
-                return {"isIntercept":True, "x":ballx, "y":bally}
+            if(self.calculate_time(distance_from) <= t):
+                return {"isIntercept":True, "x":ballx, "y":bally, "t":t}
             
             distances.append(distance_from)
 
