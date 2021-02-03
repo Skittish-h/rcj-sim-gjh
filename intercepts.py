@@ -11,7 +11,7 @@ class interceptCalculator():
     #constructor
     #sample depth - amount of samples remembered to estimate ball trajectory; >1
     #default - intial ball position
-    def __init__(self,sample_depth, default = {"x":0.0,"y":0.0}):
+    def __init__(self,sample_depth, default = {"x":0.5,"y":0.5}):
         self.sample_depth = sample_depth
         self.pastIntercepts = [default for i in range(sample_depth)]
     
@@ -22,7 +22,7 @@ class interceptCalculator():
 
     #estimate gradient of
     # returns m in function future_cord = current + m*time
-    def estimateFunction(self, coordinate):
+    def estimateFunction(self, coordinate): 
         #m & c values we averge out
         m_vals = []
 
@@ -45,7 +45,7 @@ class interceptCalculator():
     #calculates time nessecary to traverse a certain distance - used to calculate imtercept
     def calculate_time(self, distance):
                 
-        speed_constant = {'m':73.1, 'c':23}
+        speed_constant = {'m':83, 'c':0}
     
         return speed_constant['m']*distance + speed_constant['c']
     
@@ -105,7 +105,7 @@ class interceptCalculator():
                 m['y'] = -m['y']
 
             #ball is to pass X boundary
-            print(ballx, bally)
+            #print(ballx, bally)
             
             #do math
             distance_from = math.sqrt(((ballx - r['x'])**2) + ((bally - r['y'])**int(2)))
