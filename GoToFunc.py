@@ -23,19 +23,19 @@ def goTo(x, y, robot_pos, robot_angle):
             MotorsSpeed[0] =10
             MotorsSpeed[1] =-10
 
-    print( MotorsSpeed[0], " ",  MotorsSpeed[1])
+    #print( MotorsSpeed[0], " ",  MotorsSpeed[1])
     
     return [MotorsSpeed[0], MotorsSpeed[1]]
 
 ##################################################
 ##################################################
 def GetAngleToSpot(x,y,robot_pos, robot_angle):
-    YAxisToDest = y-robot_pos["y"]
+    YAxisToDest = (1-y)-(1-robot_pos["y"])
     XAxisToDest = x-robot_pos["x"]
     angle = math.atan2(YAxisToDest, XAxisToDest)
     #gets the hypo to know the distance between robot and desired location
     distanceToSpot = math.sqrt(math.pow(YAxisToDest, 2) + math.pow(XAxisToDest, 2))                   
-
+    #print(angle) 
     #some math (copied xD) to convert the value we got into degrees so that our robot can get the direction to point at  
     if angle < 0:
         angle = 2 * math.pi + angle
@@ -47,6 +47,7 @@ def GetAngleToSpot(x,y,robot_pos, robot_angle):
     robotDestAngle -= 90
     if robotDestAngle > 360:
         robotDestAngle -= 360
+    #print("angle: ",  robotDestAngle, " distance: " , distanceToSpot )
     
     return [robotDestAngle, distanceToSpot]
 
@@ -57,16 +58,18 @@ def RotateToSpot (robotAngleFromSpot):
     right = -10
     left = -10
     MagicNum =0.67
+    #67
     
     angleToTarget = 360-robotAngleFromSpot #actual rotation needed to face desires spot
+    #print (angleToTarget)
     if(angleToTarget > 360): # for some reason the fieled is 360...its 400 somethin i think
         angleToTarget-=360
-    print(angleToTarget)
+    #print(angleToTarget)
 
-    if(angleToTarget >=5 and angleToTarget <180):#turn left
+    if(angleToTarget >=1 and angleToTarget <180):#turn left
         left += (angleToTarget *MagicNum)
         right  +=(-angleToTarget)*MagicNum
-    if(angleToTarget <= 355 and angleToTarget>=180):#turn right  
+    if(angleToTarget <= 359 and angleToTarget>=180):#turn right  
         angleToTarget = 360 - angleToTarget
         left += (-angleToTarget)*MagicNum 
         right +=  (angleToTarget*MagicNum)*2
