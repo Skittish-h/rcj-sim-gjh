@@ -23,6 +23,5 @@ def support_position (data):
     b2 = robot_pos_recalc(data["B2"])
     b3 = robot_pos_recalc(data["B3"])
     supp_opti_cor = {"x": b3["x"]+(b2["x"]-b3["x"])/(7/4),"y": 0.5+(0.5-b3["y"])/(3/2)}
-    print("b2b2b2b2b2", b2 ,"b3b3b3b3b3",b3)
     return supp_opti_cor
     
