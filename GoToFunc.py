@@ -8,22 +8,10 @@ import time
 git commit -m "msg for users"
 git push"""
 
-def goTo(x, y, robot_pos, robot_angle):
+def goTo(x, y, robot_pos, robot_angle, point_goal=True, point_angle=0):
     AngleNDistance = GetAngleToSpot(x,y,robot_pos, robot_angle) #0 angle to spot, 1 distance to spot
+    
     MotorsSpeed = RotateToSpot(AngleNDistance[0]) #0 right, 1 left 
-     
-    RotateToGoal=False
-   
-
-    if(AngleNDistance[1] <=0.05):
-        if(robot_pos["y"] <0.5):
-            MotorsSpeed[0] =-10
-            MotorsSpeed[1] =10
-        else:
-            MotorsSpeed[0] =10
-            MotorsSpeed[1] =-10
-
-    #print( MotorsSpeed[0], " ",  MotorsSpeed[1])
     
     return [MotorsSpeed[0], MotorsSpeed[1]]
 
@@ -56,7 +44,7 @@ def GetAngleToSpot(x,y,robot_pos, robot_angle):
 def RotateToSpot (robotAngleFromSpot):
     #defualt values
     right = -10
-    left = -10
+    left = -10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
     MagicNum =0.67
     #67
     
