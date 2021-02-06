@@ -6,7 +6,7 @@ import math
 # find optimal place for the interception #
 # of the ball.                            #
 ###########################################
-color = ""
+
 
 class interceptCalculator():
     
