@@ -7,26 +7,6 @@ import time
 """git add gotofunc.py
 git commit -m "msg for users"
 git push"""
-def get_angles(ball_pos: dict, robot_pos: dict):
-        # Get the angle between the robot and the ball
-        angle = math.atan2(
-            ball_pos['y'] - robot_pos['y'],
-            ball_pos['x'] - robot_pos['x'],
-        )
-
-        if angle < 0:
-            angle = 2 * math.pi + angle
-
-        robot_ball_angle = math.degrees(angle)
-
-        # Axis Z is forward
-        # TODO: change the robot's orientation so that X axis means forward
-        robot_ball_angle -= 90
-        if robot_ball_angle > 360:
-            robot_ball_angle -= 360
-
-        return robot_ball_angle
-    #pushes new point into array
 def goTo(x, y, robot_pos, robot_angle, point_goal=True, point_angle=0, magicnum= 0.67):
     AngleNDistance = GetAngleToSpot(x,y,robot_pos, robot_angle) #0 angle to spot, 1 distance to spot
     
