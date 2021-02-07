@@ -7,21 +7,21 @@ def support_position (data):
 
     if roles["att"] == 1:
         att = b1
-        if roles["goalie"] = 2:
+        if roles["goalie"] == 2:
             goa = b2
-        elif roles["goalie"] = 3:
+        elif roles["goalie"] == 3:
             goa = b3
     elif roles["att"] == 2:
         att = b2
-        if roles["goalie"] = 1:
+        if roles["goalie"] == 1:
             goa = b1
-        elif roles["goalie"] = 3:
+        elif roles["goalie"] == 3:
             goa = b3
     elif roles["att"] == 3:
         att = b3
-        if roles["goalie"] = 2:
+        if roles["goalie"] == 2:
             goa = b2
-        elif roles["goalie"] = 1:
+        elif roles["goalie"] == 1:
             goa = b1
         
     supp_opti_cor = {"x": att["x"]+(goa["x"]-att["x"])/(7/4),"y": 0.5+(0.5-att["y"])/(3/2)}

@@ -29,7 +29,8 @@ class RCJSoccerRobot:
         self.right_motor.setVelocity(0.0)
 
     def parse_supervisor_msg(self, packet: str) -> dict:
-        """Parse message received from supervisor
+        '''
+        Parse message received from supervisor
 
         Returns:
             dict: Location info about each robot and the ball.
@@ -40,7 +41,7 @@ class RCJSoccerRobot:
                     ...
                     'ball': {'x': -0.7, 'y': 0.3}
                 }
-        """
+        '''
         # X, Z and rotation for each robot
         # plus X and Z for ball
         struct_fmt = 'ddd' * N_ROBOTS + 'dd'
