@@ -44,7 +44,7 @@ class interceptCalculator():
     
     #calculates time nessecary to traverse a certain distance - used to calculate imtercept
     def calculate_time(self, distance):
-        speed_constant = {'m':80, 'c':0}
+        speed_constant = {'m':70, 'c':0}
         
         return speed_constant['m']*distance + speed_constant['c']
         
@@ -145,7 +145,7 @@ class interceptCalculator():
             if(m['x']>0 and ballx > r['x']):
                 raw_time+=10
             if(raw_time <= t):
-                print(t<8)
+                #print(t<8)
                 return {"isIntercept":True, "x":ballx, "y":bally, "t":t, "kik": False}#abs(self.should_kick(r, initial_mx)['err'])<0.05}
             
 

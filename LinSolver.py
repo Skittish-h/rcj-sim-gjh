@@ -1,41 +1,32 @@
+#                GJH_team                 #
+####### Linear Equation Calculator ########
+# Calcualtes linear equations using the   #
+
+###########################################
 
 import copy
 from fractions import Fraction
  
-A = [[1, 3, 2], [2, 3, 3], [5, -3, 1]]
-b = [[1, 1, 5]]
+A = [[1, 3, 2, 1], [2, 3, 3, 1], [5, -3, 1, 5]]
 
-def gauss(a, b):
-    a = copy.deepcopy(a)
-    b = copy.deepcopy(b)
-    n = len(a)
-    p = len(b[0])
-    det = 1
-    for i in range(n - 1):
-        k = i
-        for j in range(i + 1, n):
-            if abs(a[j][i]) > abs(a[k][i]):
-                k = j
-        if k != i:
-            a[i], a[k] = a[k], a[i]
-            b[i], b[k] = b[k], b[i]
-            det = -det
- 
-        for j in range(i + 1, n):
-            t = a[j][i]/a[i][i]
-            for k in range(i + 1, n):
-                a[j][k] -= t*a[i][k]
-            for k in range(p):
-                b[j][k] -= t*b[i][k]
- 
-    for i in range(n - 1, -1, -1):
-        for j in range(i + 1, n):
-            t = a[i][j]
-            for k in range(p):
-                b[i][k] -= t*b[j][k]
-        t = 1/a[i][i]
-        det *= a[i][i]
-        for j in range(p):
-            b[i][j] *= t
-    return det, b
-print(gauss(A,b))
+#function that does gausian elimination. Too lazy to go for generic implementation so this will be specific a system of equations with 3 variables
+def gausian_elimination(matrix):
+    #first eliminate first column of zeroes
+    for i in range(1,3):
+        coef = (matrix[i][0]/matrix[0][0])
+        for j in range(4):
+            matrix[i][j] = matrix[i][j] - float(matrix[0][j] * coef)
+    
+    #first eliminate second column of zeroes
+    coef = (matrix[2][1]/matrix[1][1])
+    for i in range(4):
+        matrix[2][i] = matrix[2][i] - float(matrix[1][i] * coef)
+    #find 3rd value
+    #print(matrix)
+
+    c = matrix[2][3]/matrix[2][2]
+    b = ((matrix[1][3]) - (matrix[1][2]*c))/matrix[1][1]
+    a = ((matrix[0][3])- (matrix[0][1]*b) - (matrix[0][2]*c))/matrix[0][0]
+    return {'a':a,'b':b,'c':c}
+    
+gausian_elimination(A)
