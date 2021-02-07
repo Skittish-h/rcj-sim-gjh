@@ -34,12 +34,13 @@ class MyRobot(RCJSoccerRobot):
         intercepts["b2"] = intercept_calc.calculateOptimumIntercept(b2, sample_count=200)
         intercepts["b3"] = intercept_calc.calculateOptimumIntercept(b3, sample_count=200)
 
+        ts = {"b1":intercepts["b1"]["t"],"b2":intercepts["b2"]["t"],"b3":intercepts["b3"]["t"]}
     
-    def role_decision(self, team):
+    def role_decision(self, team, intercept_times):
         
         #ball_pos = coor_recalc(data['ball']['x'], data['ball']['y'])
 
-        ts = {"b1":intercepts["b1"]["t"],"b2":intercepts["b2"]["t"],"b3":intercepts["b3"]["t"]}
+        
 
         if team == True:
             if ts["b1"] < ts["b2"] and ts["b1"]< ts['b3']:
