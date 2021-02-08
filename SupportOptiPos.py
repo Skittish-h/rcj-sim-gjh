@@ -1,7 +1,11 @@
-from CoordinateRecalculator import robot_pos_recalc
+from CoordinateRecalculator import coor_recalc, robot_pos_recalc
 def support_position (data):
-    x_cor = {"b1":data["B1"]["x"],"b2":data["B2"]["x"],"b3":data["B3"]["x"]}
-    y_cor = {"b1": data["B1"]["y"], "b2": data["B2"]["y"], "b3": data["B3"]["y"]}
+    b1 = coor_recalc(data["B1"]["x"],data["B1"]["y"])
+    b2 = coor_recalc(data["B2"]["x"],data["B2"]["y"])
+    b3 = coor_recalc(data["B3"]["x"],data["B3"]["y"])
+    
+    x_cor = {"b1": b1["x"], "b2": b2["x"], "b3": b3["x"]}
+    y_cor = {"b1": b1["y"], "b2": b2["y"], "b3": b3["y"]}
 
     # checking for attacker and goalie
     if x_cor["b1"]==max(x_cor.values()):
