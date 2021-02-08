@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 from CoordinateRecalculator import coor_recalc, robot_pos_recalc
-=======
->>>>>>> 570781ae43637fd985d1cc9191d3c7c4c5cbc619
+
 def support_position (data):
     b1 = coor_recalc(data["B1"]["x"],data["B1"]["y"])
     b2 = coor_recalc(data["B2"]["x"],data["B2"]["y"])
