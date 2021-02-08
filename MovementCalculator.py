@@ -5,8 +5,6 @@
 # faces the enemy goal.                   #
 ###########################################
 import math
-from LinSolver import gausian_elimination
-
 # function that fits a parabolic movement to a given intercept position, 
 # considering that the slope of the tangent (derivative) is equal to that
 # from the ball to the goal.
@@ -70,3 +68,23 @@ def passes_boundary(parabola_constants: dict):
     if(d < 0):
         return False
     return True
+
+def gausian_elimination(matrix):
+    #first eliminate first column of zeroes
+    for i in range(1,3):
+        coef = (matrix[i][0]/matrix[0][0])
+        for j in range(4):
+            matrix[i][j] = matrix[i][j] - float(matrix[0][j] * coef)
+    
+    #first eliminate second column of zeroes
+    coef = (matrix[2][1]/matrix[1][1])
+    for i in range(4):
+        matrix[2][i] = matrix[2][i] - float(matrix[1][i] * coef)
+    #find 3rd value
+    #print(matrix)
+
+    c = matrix[2][3]/matrix[2][2]
+    b = ((matrix[1][3]) - (matrix[1][2]*c))/matrix[1][1]
+    a = ((matrix[0][3])- (matrix[0][1]*b) - (matrix[0][2]*c))/matrix[0][0]
+    return {'a':a,'b':b,'c':c}
+    

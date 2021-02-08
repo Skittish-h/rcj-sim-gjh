@@ -50,7 +50,7 @@ class MyRobot(RCJSoccerRobot):
         my_list = list(sorted(intercept_times.items(), key = lambda a:a[1]))
 
         if self.player_id == 1:
-            print(my_list[0])
+            
             if my_list[0][0] == "r1":
                 return "att"
             elif data[f'{self.team}1']['x']> data[f'{self.team}2']['x'] and data[f'{self.team}1']['x']> data[f'{self.team}3']['x'] and my_list[1][0] == "r1" or my_list[2][0] == "r1":
@@ -69,7 +69,7 @@ class MyRobot(RCJSoccerRobot):
         elif self.player_id == 3:
             if my_list[0][0] == "r3":
                 return "att"
-            elif data[f'{self.team}3']['x']> B2['x'] and data[f'{self.team}3']['x']> data[f'{self.team}1']['x'] and my_list[1][0] == "r3" or my_list[2][0] == "r3":
+            elif data[f'{self.team}3']['x']>  data[f'{self.team}2']['x'] and data[f'{self.team}3']['x']> data[f'{self.team}1']['x'] and my_list[1][0] == "r3" or my_list[2][0] == "r3":
                 return "goal"
             else:
                 return "back"
@@ -85,17 +85,17 @@ class MyRobot(RCJSoccerRobot):
             if not passes_boundary(x):
                 point = get_tangent_point(robot_pos, x)
                 ball_angle, robot_angle = self.get_angles(point, robot_pos)
-                print("paraBOLA")
+                
                 return goTo(point['x'], point['y'], robot_pos, robot_angle)
                 
             else:
                 ball_angle, robot_angle = self.get_angles(myi, robot_pos)
-                print("booring1")
+                
                 return goTo(myi['x'], myi['y'], robot_pos, robot_angle)
                 
         else:
             ball_angle, robot_angle = self.get_angles(myi, robot_pos)
-            print("booring2")
+            
             return goTo(myi['x'], myi['y'], robot_pos, robot_angle)
         
 
@@ -149,8 +149,7 @@ class MyRobot(RCJSoccerRobot):
 
                 #if support is 1 B1 will execute backup code
                 elif role == "back":
-                    out = [0,0]
-                #    out = self.be_backup(robot_pos, data)
+                    out = self.be_backup(robot_pos, data)
                     pass
                 self.left_motor.setVelocity(out[1])
                 self.right_motor.setVelocity(out[0])
