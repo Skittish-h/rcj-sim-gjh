@@ -6,10 +6,10 @@ def coor_r(x,y, team=True):
   y = 1-(y+0.65)/1.3
   return {"x":x,"y":y}
 
-def support_position (data):
-    b1 = coor_r(data["B1"]["x"],data["B1"]["y"])
-    b2 = coor_r(data["B2"]["x"],data["B2"]["y"])
-    b3 = coor_r(data["B3"]["x"],data["B3"]["y"])
+def support_position (data, Team):
+    b1 = coor_r(data[f"{'B' if Team else 'Y'}1"]["x"],data["B1"]["y"], team=Team)
+    b2 = coor_r(data[f"{'B' if Team else 'Y'}2"]["x"],data["B2"]["y"], team=Team)
+    b3 = coor_r(data[f"{'B' if Team else 'Y'}3"]["x"],data["B3"]["y"], team=Team)
     
     x_cor = {"b1": b1["x"], "b2": b2["x"], "b3": b3["x"]}
     y_cor = {"b1": b1["y"], "b2": b2["y"], "b3": b3["y"]}

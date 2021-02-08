@@ -55,7 +55,7 @@ class MyRobot(RCJSoccerRobot):
             else:
                 my_list.pop(0)
                 print(my_list)
-                if data[f'{self.team}1']['x'] > data[f'{self.team}{"2" if "r2" in my_list else "3"}']['x']:
+                if (data[f'{self.team}1']['x'] > data[f'{self.team}{"2" if "r2" in my_list else "3"}']['x']) if self.team=="B" else (data[f'{self.team}1']['x'] < data[f'{self.team}{"2" if "r2" in my_list else "3"}']['x']):
                     return "goal"
                 else:
                     return "back" 
@@ -66,7 +66,7 @@ class MyRobot(RCJSoccerRobot):
             else:
                 my_list.pop(0)
         
-                if data[f'{self.team}2']['x'] > data[f'{self.team}{"1" if "r1" in my_list else "3"}']['x']:
+                if (data[f'{self.team}2']['x'] > data[f'{self.team}{"1" if "r1" in my_list else "3"}']['x']) if self.team=="B" else (data[f'{self.team}2']['x'] < data[f'{self.team}{"1" if "r1" in my_list else "3"}']['x']):
                     return "goal"
                 else:
                     return "back" 
@@ -77,20 +77,20 @@ class MyRobot(RCJSoccerRobot):
             else:
                 my_list.pop(0)
         
-                if data[f'{self.team}3']['x'] > data[f'{self.team}{"1" if "r1" in my_list else "2"}']['x']:
+                if (data[f'{self.team}3']['x'] > data[f'{self.team}{"1" if "r1" in my_list else "2"}']['x']) if self.team=="B" else (data[f'{self.team}3']['x'] < data[f'{self.team}{"1" if "r1" in my_list else "2"}']['x']):
                     return "goal"
                 else:
                     return "back" 
 
-    def be_attacker(self, myi, robot_pos):
+    def be_attacker(self, myi, robot_pos, team):
         stuff = 0
         point = 0
-        if myi['x'] < robot_pos['x']:
+        if (myi['x'] < robot_pos['x']) if team else (myi['x'] > robot_pos['x']):
             
             #print(intercepts)
-            x = fit_parabola(myi, robot_pos ,{'x':0.0,"y":0.5})
+            x = fit_parabola(myi, robot_pos ,{'x':(0.0 if team else 1.0),"y":0.5})
             if not passes_boundary(x):
-                point = get_tangent_point(robot_pos, x)
+                point = get_tangent_point(robot_pos, x, team)
                 ball_angle, robot_angle = self.get_angles(point, robot_pos)
                 
                 return goTo(point['x'], point['y'], robot_pos, robot_angle)
@@ -108,9 +108,9 @@ class MyRobot(RCJSoccerRobot):
 
 
     def be_goalie(self, ball_pos, robot_pos, team):
-        Designated_pos = [[0.58, 0]]
+        Designated_pos = [[0.58, 0]] if team else [[-0.58,0]]
         DesiredPos = coor_recalc(Designated_pos[0][0],Designated_pos[0][1], team=team)
-        if ball_pos['x'] > DesiredPos['x']:
+        if (ball_pos['x'] > DesiredPos['x']) if team else (ball_pos['x'] < DesiredPos['x']):
             DesiredPos = ball_pos
         else:
             DesiredPos['y'] = goalie_cal_Y(ball_pos)
@@ -118,8 +118,8 @@ class MyRobot(RCJSoccerRobot):
         ball_angle, robot_angle = self.get_angles(ball_pos, robot_pos)
         return goTo(DesiredPos["x"], DesiredPos["y"], robot_pos, robot_angle) #0 right motor, 1 left motor 
 
-    def be_backup(self, robot_pos, data):
-        DesiredPos = support_position(data)
+    def be_backup(self, robot_pos, data, Team):
+        DesiredPos = support_position(data, Team)
 
         ball_angle, robot_angle = self.get_angles(DesiredPos, robot_pos)
         return goTo(DesiredPos["x"], DesiredPos["y"], robot_pos, robot_angle) #0 right motor, 1 left motor 
@@ -139,7 +139,6 @@ class MyRobot(RCJSoccerRobot):
                 robot_pos = robot_pos_recalc(data[self.name], Team)
                 # Get & recalculate the position of the ball
                 ball_pos = coor_recalc(data['ball']['x'], data['ball']['y'], Team)
-                
                 self.intercept_c.pushPoint(ball_pos)
                 
                 myi, intercepts = self.getIntercepts(data, Team)
@@ -151,7 +150,7 @@ class MyRobot(RCJSoccerRobot):
                
                 # if roles att is 1 the B1 will execute attacker code
                 if role == "att":                
-                    out = self.be_attacker(myi, robot_pos)
+                    out = self.be_attacker(myi, robot_pos, Team)
 
                 # if goalie will be 1 B1 will execute goalie code
                 elif role == "goal":
@@ -159,7 +158,7 @@ class MyRobot(RCJSoccerRobot):
 
                 #if support is 1 B1 will execute backup code
                 elif role == "back":
-                    out = self.be_backup(robot_pos, data)
+                    out = self.be_backup(robot_pos, data, Team)
                     pass
                 self.left_motor.setVelocity(out[1])
                 self.right_motor.setVelocity(out[0])

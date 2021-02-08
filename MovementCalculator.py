@@ -41,7 +41,7 @@ def fit_parabola(intercept_pos: dict, robot_pos: dict, goal_pos: dict):
 
 #function that takes parabolic equations and gives a point on the tangent (so we can use goto function since we are too lazy:D)
 #using derivatives
-def get_tangent_point(robot_pos: dict, parabola_constants: dict):
+def get_tangent_point(robot_pos: dict, parabola_constants: dict, team):
     #calculate derivative f'(x) = 2ax + b
     
     derivative = 2 * parabola_constants['a'] * robot_pos['x'] + parabola_constants['b']
@@ -50,8 +50,8 @@ def get_tangent_point(robot_pos: dict, parabola_constants: dict):
     futurepoint = dict()
 
     #point is 10 units away from us
-    futurepoint['x'] = -10
-    futurepoint['y'] = derivative * -10
+    futurepoint['x'] = -10 if team else 10
+    futurepoint['y'] = derivative * (-10 -10 if team else 10)
     
 
     return futurepoint
