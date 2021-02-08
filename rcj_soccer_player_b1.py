@@ -86,7 +86,7 @@ class MyRobot(RCJSoccerRobot):
         stuff = 0
         point = 0
         if myi['x'] < robot_pos['x']:
-
+            
             #print(intercepts)
             x = fit_parabola(myi, robot_pos ,{'x':0.0,"y":0.5})
             if not passes_boundary(x):
@@ -107,11 +107,14 @@ class MyRobot(RCJSoccerRobot):
         
 
 
-    def be_goalie(self, ball_pos, robot_pos):
+    def be_goalie(self, ball_pos, robot_pos, team):
         Designated_pos = [[0.58, 0]]
-        DesiredPos = coor_recalc(Designated_pos[0][0],Designated_pos[0][1])
-
-        DesiredPos['y'] = goalie_cal_Y(ball_pos)
+        DesiredPos = coor_recalc(Designated_pos[0][0],Designated_pos[0][1], team=team)
+        if ball_pos['x'] > DesiredPos['x']:
+            DesiredPos = ball_pos
+        else:
+            DesiredPos['y'] = goalie_cal_Y(ball_pos)
+        
         ball_angle, robot_angle = self.get_angles(ball_pos, robot_pos)
         return goTo(DesiredPos["x"], DesiredPos["y"], robot_pos, robot_angle) #0 right motor, 1 left motor 
 
@@ -128,7 +131,7 @@ class MyRobot(RCJSoccerRobot):
         self.intercept_c = interceptCalculator(3)
 
         Team = (self.team == "B")
-        
+        print(Team)
         while self.robot.step(TIME_STEP) != -1:
             if self.is_new_data():
                 data = self.get_new_data()
@@ -152,7 +155,7 @@ class MyRobot(RCJSoccerRobot):
 
                 # if goalie will be 1 B1 will execute goalie code
                 elif role == "goal":
-                    out = self.be_goalie(ball_pos, robot_pos)
+                    out = self.be_goalie(ball_pos, robot_pos, Team)
 
                 #if support is 1 B1 will execute backup code
                 elif role == "back":
