@@ -29,6 +29,10 @@ def support_position (data, Team):
         att_cor = {"x":x_cor["b3"],"y":y_cor["b3"]}
 
     #calculation of support optimal position
-    supp_opti_cor = {"x":att_cor["x"]+(goalie_cor["x"]-att_cor["x"])/(2),"y":0.5+(0.5-att_cor["y"])/(2)}
+    #switch for colors 
+    if team:
+        supp_opti_cor = {"x":att_cor["x"]+(goalie_cor["x"]-att_cor["x"])/(2),"y":0.5+(0.5-att_cor["y"])/(2)}
+    else:
+        supp_opti_cor = {"x":goalie_cor["x"]+(att_cor["x"]-goaliecor["x"])/(2),"y":0.5+(0.5-att_cor["y"])/(2)}
     return supp_opti_cor
     
