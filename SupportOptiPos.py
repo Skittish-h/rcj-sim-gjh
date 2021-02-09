@@ -36,7 +36,7 @@ def support_position (data, Team):
             supp_opti_cor['x'] = 0.8
     else:
         supp_opti_cor = {"x":goalie_cor["x"]+(att_cor["x"]-goalie_cor["x"])/(2),"y":0.5+(0.5-att_cor["y"])/(2)}
-        if supp_opti_cor['x'] > 0.2:
+        if supp_opti_cor['x'] < 0.2:
             supp_opti_cor['x'] = 0.2
     return supp_opti_cor
     
