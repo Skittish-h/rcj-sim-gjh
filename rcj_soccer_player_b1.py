@@ -34,9 +34,9 @@ class MyRobot(RCJSoccerRobot):
         intercepts = {"r1":0,"r2":0 ,"r3":0}
         
         #get all the intercepts, with a lota samples
-        intercepts["r1"] = self.intercept_c.calculateOptimumIntercept(r1, sample_count=200)
-        intercepts["r2"] = self.intercept_c.calculateOptimumIntercept(r2, sample_count=200)
-        intercepts["r3"] = self.intercept_c.calculateOptimumIntercept(r3, sample_count=200)
+        intercepts["r1"] = self.intercept_c.calculateOptimumIntercept(r1, Team, sample_count=200)
+        intercepts["r2"] = self.intercept_c.calculateOptimumIntercept(r2, Team, sample_count=200)
+        intercepts["r3"] = self.intercept_c.calculateOptimumIntercept(r3, Team, sample_count=200)
 
         #dict with times
         ts = {"r1":intercepts["r1"]["t"],"r2":intercepts["r2"]["t"],"r3":intercepts["r3"]["t"]}

@@ -81,7 +81,7 @@ class interceptCalculator():
         return a_to_target, ball_vector_a
     #function that calculates the optimum intercept 
     #really long but most of it is just renaming variables and arguments for better visibility and explenations
-    def calculateOptimumIntercept(self, currentPositioning, sample_count=50,sample_accuracy=1):
+    def calculateOptimumIntercept(self, currentPositioning, team ,sample_count=50,sample_accuracy=1):
         #very complex calculations incoming
         #all distances we return
         distances = []
@@ -142,7 +142,7 @@ class interceptCalculator():
             
             #if we can travel to the ball in time by that coordinate, return
             raw_time = self.calculate_time(distance_from)
-            if(m['x']>0 and ballx > r['x']):
+            if (m['x']>0 and ballx > r['x']) if team else (m['x']<0 and ballx < r['x']):
                 raw_time+=10
             if(raw_time <= t):
                 #print(t<8)
