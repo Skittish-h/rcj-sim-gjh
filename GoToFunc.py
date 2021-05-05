@@ -6,7 +6,7 @@ import time
 """git add gotofunc.py
 git commit -m "msg for users"
 git push"""
-def goTo(x, y, robot_pos, robot_angle, point_goal=True, point_angle=0, magicnum= 0.67):
+def goTo(x, y, robot_pos, robot_angle, point_goal=True, point_angle=0, magicnum= 0.27):
     AngleNDistance = GetAngleToSpot(x,y,robot_pos, robot_angle) #0 angle to spot, 1 distance to spot
     
     MotorsSpeed = RotateToSpot(AngleNDistance[0], magicnum) #0 right, 1 left 
