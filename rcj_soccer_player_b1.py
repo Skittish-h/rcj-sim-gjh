@@ -135,7 +135,9 @@ class MyRobot(RCJSoccerRobot):
         while self.robot.step(TIME_STEP) != -1:
             if self.is_new_data():
                 data = self.get_new_data()
-                
+                #due to extensive openAI gym testing we know that desync DOES occur
+                while self.is_new_data():            
+                    data = self.get_new_data()
                 robot_pos = robot_pos_recalc(data[self.name], Team)
                 # Get & recalculate the position of the ball
                 ball_pos = coor_recalc(data['ball']['x'], data['ball']['y'], Team)
